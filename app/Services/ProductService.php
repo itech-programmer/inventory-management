@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Contracts\ApiResponseServiceInterface;
 use App\Contracts\ProductRepositoryInterface;
 use App\Contracts\ProductServiceInterface;
 use App\DTO\ProductDto;
@@ -10,18 +11,26 @@ use Illuminate\Http\JsonResponse;
 class ProductService implements ProductServiceInterface
 {
     private ProductRepositoryInterface $productRepository;
+    private ApiResponseServiceInterface $apiResponse;
 
-    public function __construct(ProductRepositoryInterface $productRepository)
-    {
+    public function __construct(
+        ProductRepositoryInterface $productRepository,
+        ApiResponseServiceInterface $apiResponse
+    ) {
         $this->productRepository = $productRepository;
+        $this->apiResponse = $apiResponse;
     }
 
     public function getAll(): JsonResponse
     {
-        return response()->json([
-            'message' => 'Products retrieved successfully',
-            'data' => $this->productRepository->getAll()
-        ], 200);
+        return $this->apiResponse->success('Products retrieved successfully', $this->productRepository->getAll());
+    }
+
+    public function getAvailable(): JsonResponse
+    {
+        $products = $this->productRepository->getAvailableProducts();
+
+        return $this->apiResponse->success('Available products retrieved successfully', $products);
     }
 
     public function findById(int $id): JsonResponse
@@ -29,8 +38,8 @@ class ProductService implements ProductServiceInterface
         $product = $this->productRepository->findById($id);
 
         return $product
-            ? response()->json(['message' => 'Product found', 'data' => $product], 200)
-            : response()->json(['message' => 'Product not found'], 404);
+            ? $this->apiResponse->success('Product found', $product)
+            : $this->apiResponse->error('Product not found', [], 404);
     }
 
     public function create(ProductDto $dto): JsonResponse
@@ -41,7 +50,7 @@ class ProductService implements ProductServiceInterface
             'price' => $dto->price,
         ]);
 
-        return response()->json(['message' => 'Product created', 'data' => $product], 201);
+        return $this->apiResponse->success('Product created successfully', $product, 201);
     }
 
     public function update(int $id, ProductDto $dto): JsonResponse
@@ -53,14 +62,14 @@ class ProductService implements ProductServiceInterface
         ]);
 
         return $product
-            ? response()->json(['message' => 'Product updated', 'data' => $product], 200)
-            : response()->json(['message' => 'Product not found'], 404);
+            ? $this->apiResponse->success('Product updated successfully', $product)
+            : $this->apiResponse->error('Product not found', [], 404);
     }
 
     public function delete(int $id): JsonResponse
     {
         return $this->productRepository->delete($id)
-            ? response()->json(['message' => 'Product deleted'], 200)
-            : response()->json(['message' => 'Product not found'], 404);
+            ? $this->apiResponse->success('Product deleted successfully')
+            : $this->apiResponse->error('Product not found', [], 404);
     }
 }

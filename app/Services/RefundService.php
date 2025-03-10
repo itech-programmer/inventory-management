@@ -2,25 +2,28 @@
 
 namespace App\Services;
 
+use App\Contracts\ApiResponseServiceInterface;
 use App\Contracts\RefundRepositoryInterface;
 use App\Contracts\RefundServiceInterface;
+use App\DTO\RefundDto;
 use Illuminate\Http\JsonResponse;
 
 class RefundService implements RefundServiceInterface
 {
     private RefundRepositoryInterface $refundRepository;
+    private ApiResponseServiceInterface $apiResponse;
 
-    public function __construct(RefundRepositoryInterface $refundRepository)
-    {
+    public function __construct(
+        RefundRepositoryInterface $refundRepository,
+        ApiResponseServiceInterface $apiResponse
+    ) {
         $this->refundRepository = $refundRepository;
+        $this->apiResponse = $apiResponse;
     }
 
     public function getAll(): JsonResponse
     {
-        return response()->json([
-            'message' => 'Refunds retrieved successfully',
-            'data' => $this->refundRepository->getAll()
-        ], 200);
+        return $this->apiResponse->success('Refunds retrieved successfully', $this->refundRepository->getAll());
     }
 
     public function findById(int $id): JsonResponse
@@ -28,8 +31,8 @@ class RefundService implements RefundServiceInterface
         $refund = $this->refundRepository->findById($id);
 
         return $refund
-            ? response()->json(['message' => 'Refund found', 'data' => $refund], 200)
-            : response()->json(['message' => 'Refund not found'], 404);
+            ? $this->apiResponse->success('Refund found', $refund)
+            : $this->apiResponse->error('Refund not found', [], 404);
     }
 
     public function create(RefundDto $dto): JsonResponse
@@ -41,6 +44,6 @@ class RefundService implements RefundServiceInterface
             'refund_amount' => $dto->refund_amount,
         ]);
 
-        return response()->json(['message' => 'Refund processed', 'data' => $refund], 201);
+        return $this->apiResponse->success('Refund processed', $refund, 201);
     }
 }

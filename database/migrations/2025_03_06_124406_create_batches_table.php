@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('batches', function (Blueprint $table) {
             $table->id();
             $table->foreignId('provider_id')->constrained()->onDelete('cascade');
-            $table->date('purchase_date');
+            $table->date('purchase_date')->nullable();
+            $table->decimal('purchase_cost', 10, 2);
             $table->timestamps();
         });
     }

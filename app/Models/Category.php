@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
-    protected $fillable = ['name', 'parent_id'];
+    protected $fillable = ['name', 'parent_id', 'provider_id'];
+    protected $hidden = ['provider_id', 'created_at', 'updated_at'];
 
     public function parent(): BelongsTo
     {
@@ -18,5 +19,10 @@ class Category extends Model
     public function children(): HasMany
     {
         return $this->hasMany(__CLASS__, 'parent_id');
+    }
+
+    public function provider(): BelongsTo
+    {
+        return $this->belongsTo(Provider::class, 'provider_id');
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ProductRequest extends FormRequest
+class PurchaseProductRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,9 +17,10 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'category_id' => 'required|integer|exists:categories,id',
-            'price' => 'required|numeric|min:0',
+            'batch_id' => 'required|integer|exists:batches,id',
+            'product_id' => 'required|integer|exists:products,id',
+            'quantity' => 'required|integer|min:1',
+            'price_at_purchase' => 'required|numeric|min:0',
         ];
     }
 

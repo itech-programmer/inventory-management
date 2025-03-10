@@ -2,6 +2,7 @@
 
 namespace App\Contracts;
 
+use App\DTO\RefundDto;
 use Illuminate\Http\JsonResponse;
 
 interface RefundServiceInterface

@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 interface ProductServiceInterface
 {
     public function getAll(): JsonResponse;
+    public function getAvailable(): JsonResponse;
     public function findById(int $id): JsonResponse;
     public function create(ProductDto $dto): JsonResponse;
     public function update(int $id, ProductDto $dto): JsonResponse;

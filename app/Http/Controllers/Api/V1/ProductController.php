@@ -22,6 +22,11 @@ class ProductController extends Controller
         return $this->productService->getAll();
     }
 
+    public function available(): JsonResponse
+    {
+        return $this->productService->getAvailable();
+    }
+
     public function show(int $id): JsonResponse
     {
         return $this->productService->findById($id);

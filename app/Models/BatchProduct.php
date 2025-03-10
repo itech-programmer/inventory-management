@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Refund extends Model
+class BatchProduct extends Model
 {
-    protected $fillable = ['batch_id', 'order_id', 'quantity', 'refund_amount'];
+    protected $fillable = ['batch_id', 'product_id', 'quantity', 'price_at_purchase'];
 
     public function batch(): BelongsTo
     {
         return $this->belongsTo(Batch::class);
     }
 
-    public function order(): BelongsTo
+    public function product(): BelongsTo
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Product::class);
     }
 }
