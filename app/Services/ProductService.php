@@ -23,7 +23,16 @@ class ProductService implements ProductServiceInterface
 
     public function getAll(): JsonResponse
     {
-        return $this->apiResponse->success('Products retrieved successfully', $this->productRepository->getAll());
+        $products = $this->productRepository->getAll()->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'category_name' => $product->category ? $product->category->name : null,
+                'price' => $product->price,
+            ];
+        });
+
+        return $this->apiResponse->success('Products retrieved successfully', $products);
     }
 
     public function getAvailable(): JsonResponse

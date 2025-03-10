@@ -10,7 +10,7 @@ class StorageRepository implements StorageRepositoryInterface
 {
     public function getRemainingQuantities(string $date): Collection
     {
-        return DB::table('storage_products')
+        $result = DB::table('storage_products')
             ->join('products', 'storage_products.product_id', '=', 'products.id')
             ->select(
                 'products.id',
@@ -20,5 +20,7 @@ class StorageRepository implements StorageRepositoryInterface
             ->whereDate('storage_products.created_at', '<=', $date)
             ->groupBy('products.id', 'products.name')
             ->get();
+
+        return new Collection($result);
     }
 }

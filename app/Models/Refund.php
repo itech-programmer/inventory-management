@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Refund extends Model
 {
     protected $fillable = ['batch_id', 'order_id', 'quantity', 'refund_amount'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function batch(): BelongsTo
     {

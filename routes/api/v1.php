@@ -43,7 +43,6 @@ Route::prefix('refunds')->group(function () {
 
 Route::prefix('batches')->group(function () {
     Route::get('/profit', [BatchController::class, 'calculateProfit']);
-    Route::post('/purchase', [BatchController::class, 'purchaseProduct']);
 });
 
 Route::prefix('storage')->group(function () {

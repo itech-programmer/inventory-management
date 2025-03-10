@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Contracts\CategoryServiceInterface;
+use App\DTO\CategoryDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use Illuminate\Http\JsonResponse;
@@ -38,12 +39,24 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request): JsonResponse
     {
-        return $this->categoryService->create($request->validated());
+        $dto = new CategoryDto(
+            $request->validated()['name'],
+            $request->validated()['parent_id'],
+            $request->validated()['provider_id']
+        );
+
+        return $this->categoryService->create($dto);
     }
 
     public function update(CategoryRequest $request, int $id): JsonResponse
     {
-        return $this->categoryService->update($id, $request->validated());
+        $dto = new CategoryDto(
+            $request->validated()['name'],
+            $request->validated()['parent_id'],
+            $request->validated()['provider_id']
+        );
+
+        return $this->categoryService->update($id, $dto);
     }
 
     public function destroy(int $id): JsonResponse

@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Batch;
 use App\Models\Product;
 use App\Models\Provider;
-use App\Models\Storage;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

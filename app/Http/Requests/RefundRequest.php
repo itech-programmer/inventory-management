@@ -9,11 +9,6 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class RefundRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [

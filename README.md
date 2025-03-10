@@ -1,67 +1,353 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📦 Inventory Management API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**API для управления товарами, партиями, клиентами и возвратами.**
 
-## About Laravel
+## 📌 Описание
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+`Inventory Management API` предназначен для управления процессами закупки, хранения, продажи и возврата товаров.  
+Система поддерживает **категории**, **товары**, **партии**, **склады**, **клиентов** и **возвраты**.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🏗 Архитектура данных
 
-## Learning Laravel
+### 🔹 Основные сущности:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Products (Товары)** – Каждый товар принадлежит определенной категории.
+- **Providers (Поставщики)** – Компании, у которых закупаются товары.
+- **Batches (Партии)** – Группы товаров, закупленных у поставщиков.
+- **Storages (Склады)** – Места, где хранятся товары перед продажей.
+- **Clients (Клиенты)** – Компании, которым продаются товары.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🔄 Как работает система?
 
-## Laravel Sponsors
+### 1️⃣ Закупка товаров
+✅ Товары закупаются **партиями** у поставщиков и **хранятся на складе**.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2️⃣ Продажа товаров клиентам
+✅ Товары продаются клиентам с **наценкой** для получения **прибыли**.
 
-### Premium Partners
+### 3️⃣ Обработка возвратов
+✅ **Возвраты** возможны как от **клиентов** (на проданные товары), так и от **поставщиков** (на закупленные товары).
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+## 🚀 Установка и запуск проекта
+### 📥 Требования:
+- Docker
+- Make
+- Docker Compose
+- 
+### 📌 Установка
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**1️⃣ Клонируем репозиторий:**
 
-## Code of Conduct
+```bash
+    git clone https://github.com/itech-programmer/inventory-management.git
+    cd inventory-management
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**2️⃣ Запускаем проект**
 
-## Security Vulnerabilities
+```bash
+    make start
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**✅ Этот шаг:**
 
-## License
+- Копирует .env.example в .env (если его нет).
+- Поднимает контейнеры с Laravel и базой данных.
+- Устанавливает зависимости через Composer.
+- Запускает миграции и заполняет базу тестовыми данными.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**3️⃣ Проверяем статус контейнеров**
 
+```bash
+    docker-compose ps
+```
+
+### 📌 Полезные команды
+**🟢 Запустить контейнеры**
+```bash
+    make up
+```
+
+**🔴 Остановить контейнеры**
+```bash
+    make down
+```
+
+**♻️ Перезапустить контейнеры**
+```bash
+    make restart
+```
+
+**♻📜 Просмотреть логи**
+```bash
+    make logs
+```
+
+**🛠 Войти в контейнер Laravel**
+```bash
+    make bash
+```
+
+**📦 Запустить миграции**
+```bash
+    make migrate
+```
+
+**🌱 Заполнить базу тестовыми данными**
+```bash
+    make seed
+```
+
+**🧪 Запустить тесты**
+```bash
+    make test
+```
+
+**⚡ Запуск artisan команд**
+```bash
+    make artisan cmd=migrate
+```
+
+**🎵 Запуск composer команд**
+```bash
+    make composer cmd=update
+```
+
+**🚀 Оптимизация кеша**
+```bash
+    make optimize
+```
+
+**🗑 Очистка кеша**
+```bash
+    make clear
+```
+
+---
+
+## 📚 API Эндпоинты
+
+### 🛍 Товары (`/products`)
+
+#### 📌 Получить список всех товаров
+`GET /api/v1/products`
+
+```json
+{
+    "type": "success",
+    "message": "Products retrieved successfully",
+    "data": [
+        {
+            "id": 1,
+            "name": "Ahmad Tea Earl Grey, 500g",
+            "category_name": "Black Tea",
+            "price": 10.99
+        }
+    ]
+}
+```
+
+#### 📌 Получить доступные товары для заказа
+`GET /api/v1/products/available`
+```json
+{
+  "type": "success",
+  "message": "Available products retrieved successfully",
+  "data": [
+    {
+      "id": 1,
+      "name": "Ahmad Tea Earl Grey, 500g",
+      "category_name": "Black Tea",
+      "price": 10.99,
+      "qty": 50
+    }
+  ]
+}
+```
+
+#### 📌 Создать товар
+`POST /api/v1/products`
+```json
+{
+  "name": "Ahmad Tea Green, 500g",
+  "category_id": 3,
+  "price": 12.50
+}
+```
+#### ✅ Ответ
+```json
+{
+  "type": "success",
+  "message": "Product created successfully",
+  "data": {
+    "name": "Ahmad Tea Green, 500g",
+    "price": 12.5,
+    "id": 2
+  }
+}
+
+```
+
+### 📦 Партии (/batches)
+#### 📌 Расчет прибыли по партиям
+`GET /api/v1/batches/profit`
+```json
+{
+  "type": "success",
+  "message": "Batch profit calculated successfully",
+  "data": [
+    {
+      "batch_id": 1,
+      "total_sales": 25.98,
+      "total_cost": 799,
+      "total_refunds": 0,
+      "profit": -773.02
+    }
+  ]
+}
+```
+
+### 📦 Склады (/storage)
+#### 📌 Получить остатки товаров на складе
+`GET /api/v1/storage/remaining?date=2025-03-06`
+```json
+{
+  "type": "success",
+  "message": "Remaining quantities retrieved successfully",
+  "data": [
+    {
+      "id": 1,
+      "name": "Ahmad Tea Earl Grey, 500g",
+      "remaining_qty": 50
+    }
+  ]
+}
+```
+
+### 🛒 Заказы (/orders)
+#### 📌 Создать заказ клиента
+`POST /api/v1/orders`
+```json
+{
+  "client_id": 1,
+  "products": [
+    {
+      "id": 1,
+      "qty": 2
+    }
+  ]
+}
+```
+#### ✅ Ответ
+```json
+{
+  "type": "success",
+  "message": "Order created successfully",
+  "data": {
+    "id": 1,
+    "client_id": 1,
+    "client_name": "Supermarket X",
+    "products": [
+      {
+        "id": 1,
+        "name": "Ahmad Tea Earl Grey, 500g",
+        "quantity": 2,
+        "price_at_sale": 10.99
+      }
+    ]
+  }
+}
+```
+
+### 🔄 Возвраты (/refunds)
+#### 📌 Оформить возврат товара
+`POST /api/v1/refunds`
+```json
+{
+  "order_id": 1,
+  "quantity": 1,
+  "refund_amount": 5.50
+}
+```
+#### ✅ Ответ
+```json
+{
+  "type": "success",
+  "message": "Refund processed",
+  "data": {
+    "batch_id": null,
+    "order_id": 1,
+    "quantity": 1,
+    "refund_amount": 5.5,
+    "id": 2
+  }
+}
+```
+
+### 📜 Список API-роутов
+## 📜 Список API-роутов
+
+| Метод   | URI                                       | Описание |
+|---------|------------------------------------------|-----------------------------------------------------|
+| **📁 Категории (Categories)** |
+| `GET`   | `/api/v1/categories`                     | Получить все категории |
+| `GET`   | `/api/v1/categories/{id}`                | Получить категорию по ID |
+| `GET`   | `/api/v1/categories/{id}/subcategories`  | Получить подкатегории данной категории |
+| `GET`   | `/api/v1/categories/provider/{providerId}` | Получить категории по поставщику |
+| `POST`  | `/api/v1/categories`                     | Создать новую категорию |
+| `PUT`   | `/api/v1/categories/{id}`                | Обновить категорию |
+| `DELETE`| `/api/v1/categories/{id}`                | Удалить категорию |
+| **🛍️ Товары (Products)** |
+| `GET`   | `/api/v1/products`                       | Получить список всех товаров |
+| `GET`   | `/api/v1/products/available`             | Получить доступные товары |
+| `GET`   | `/api/v1/products/{id}`                  | Получить товар по ID |
+| `POST`  | `/api/v1/products`                       | Создать новый товар |
+| `PUT`   | `/api/v1/products/{id}`                  | Обновить товар |
+| `DELETE`| `/api/v1/products/{id}`                  | Удалить товар |
+| **🛒 Заказы (Orders)** |
+| `GET`   | `/api/v1/orders`                         | Получить список всех заказов |
+| `GET`   | `/api/v1/orders/client/{clientId}`       | Получить заказы клиента |
+| `GET`   | `/api/v1/orders/{id}`                    | Получить заказ по ID |
+| `POST`  | `/api/v1/orders`                         | Создать заказ |
+| `DELETE`| `/api/v1/orders/{id}`                    | Удалить заказ |
+| **🔄 Возвраты (Refunds)** |
+| `GET`   | `/api/v1/refunds`                        | Получить список всех возвратов |
+| `GET`   | `/api/v1/refunds/{id}`                   | Получить возврат по ID |
+| `POST`  | `/api/v1/refunds`                        | Оформить возврат |
+| **📦 Партии (Batches)** |
+| `GET`   | `/api/v1/batches/profit`                 | Рассчитать прибыль по партиям |
+| **🏪 Склады (Storage)** |
+| `GET`   | `/api/v1/storage/remaining?date=YYYY-MM-DD` | Получить остатки товаров на складе |
+
+
+### 🛠 Технические требования
+- Язык: PHP 8.4
+- Фреймворк: Laravel
+- База данных: MySQL
+- Тестирование: PHPUnit (Feature-тесты для всех API)
+
+### 🔹 Архитектура:
+- ✅ SOLID
+- ✅ Dependency Injection
+- ✅ DTO (Data Transfer Object)
+- ✅ Сервисный слой (Service Layer)
+- ✅ Репозитории (Repository Pattern)
+
+## 📜 Postman-коллекция
+
+Для удобного тестирования API можно использовать коллекцию Postman.  
+Файл коллекции: `Inventory Management.postman_collection.json` (находится в корне проекта).
+
+## 🔖 Версия API
+Текущая версия API: **v1**  
+Базовый URL:  http://localhost:8080/api/v1
+
+```markdown
+📌 **Внимание:** при обновлении API будет создано `/api/v2`.
+```

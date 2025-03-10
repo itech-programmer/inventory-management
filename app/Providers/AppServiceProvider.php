@@ -13,17 +13,21 @@ use App\Contracts\ProductRepositoryInterface;
 use App\Contracts\ProductServiceInterface;
 use App\Contracts\RefundRepositoryInterface;
 use App\Contracts\RefundServiceInterface;
+use App\Contracts\StorageRepositoryInterface;
+use App\Contracts\StorageServiceInterface;
 use App\Repositories\BatchRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\RefundRepository;
+use App\Repositories\StorageRepository;
 use App\Services\ApiResponseService;
 use App\Services\BatchProfitService;
 use App\Services\CategoryService;
 use App\Services\OrderService;
 use App\Services\ProductService;
 use App\Services\RefundService;
+use App\Services\StorageService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -49,6 +53,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(BatchRepositoryInterface::class, BatchRepository::class);
         $this->app->bind(BatchProfitServiceInterface::class, BatchProfitService::class);
+
+        $this->app->bind(StorageServiceInterface::class, StorageService::class);
+        $this->app->bind(StorageRepositoryInterface::class, StorageRepository::class);
     }
 
     /**

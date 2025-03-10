@@ -14,6 +14,7 @@ class CategoryRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:categories,id',
+            'provider_id' => 'nullable|exists:providers,id',
         ];
     }
 

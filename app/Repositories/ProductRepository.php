@@ -11,24 +11,29 @@ class ProductRepository implements ProductRepositoryInterface
 {
     public function getAll(): Collection
     {
-        return Product::all();
+        return Product::with('category:id,name')->get(['id', 'name', 'category_id', 'price']);
     }
 
     public function getAvailableProducts(): Collection
     {
         return Product::query()
             ->join('storage_products', 'storage_products.product_id', '=', 'products.id')
-            ->join('categories', 'products.category_id', '=', 'categories.id')
-            ->select(
+            ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
+            ->select([
                 'products.id',
                 'products.name',
                 'categories.name as category_name',
                 'products.price',
-                \DB::raw('SUM(storage_products.quantity) as qty')
-            )
+                DB::raw('SUM(storage_products.quantity) as qty')
+            ])
             ->groupBy('products.id', 'products.name', 'categories.name', 'products.price')
             ->having('qty', '>', 0)
-            ->get();
+            ->get()
+            ->map(function ($product) {
+                $product->qty = (int) $product->qty;
+                $product->price = (float) $product->price;
+                return $product;
+            });
     }
 
     public function findById(int $id): ?Product

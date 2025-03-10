@@ -2,6 +2,7 @@
 
 namespace App\Contracts;
 
+use App\DTO\CategoryDto;
 use Illuminate\Http\JsonResponse;
 
 interface CategoryServiceInterface
@@ -10,7 +11,7 @@ interface CategoryServiceInterface
     public function findById(int $id): JsonResponse;
     public function getSubcategories(int $categoryId): JsonResponse;
     public function getByProvider(int $providerId): JsonResponse;
-    public function create(array $data): JsonResponse;
-    public function update(int $id, array $data): JsonResponse;
+    public function create(CategoryDto $dto): JsonResponse;
+    public function update(int $id, CategoryDto $dto): JsonResponse;
     public function delete(int $id): JsonResponse;
 }

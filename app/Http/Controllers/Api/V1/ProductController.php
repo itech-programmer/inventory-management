@@ -33,7 +33,8 @@ class ProductController extends Controller
     }
 
     public function store(ProductRequest $request): JsonResponse
-    {
+    {    \Log::info('ProductController store() received validated data:', $request->validated());
+
         $dto = new ProductDto(
             $request->validated()['name'],
             $request->validated()['category_id'],

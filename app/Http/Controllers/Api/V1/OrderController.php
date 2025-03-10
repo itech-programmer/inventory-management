@@ -29,10 +29,7 @@ class OrderController extends Controller
 
     public function getByClient(int $clientId): JsonResponse
     {
-        return response()->json([
-            'message' => 'Orders retrieved successfully',
-            'data' => $this->orderService->getByClientId($clientId)
-        ]);
+        return $this->orderService->getByClientId($clientId);
     }
 
     public function store(OrderRequest $request): JsonResponse

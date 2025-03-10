@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Batch extends Model
 {
@@ -21,4 +22,10 @@ class Batch extends Model
             ->withPivot('quantity', 'price_at_purchase')
             ->withTimestamps();
     }
+
+    public function refunds(): HasMany
+    {
+        return $this->hasMany(Refund::class, 'batch_id');
+    }
+
 }

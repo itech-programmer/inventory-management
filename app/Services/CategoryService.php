@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\ApiResponseServiceInterface;
 use App\Contracts\CategoryServiceInterface;
 use App\Contracts\CategoryRepositoryInterface;
+use App\DTO\CategoryDto;
 use Illuminate\Http\JsonResponse;
 
 class CategoryService implements CategoryServiceInterface
@@ -47,19 +48,33 @@ class CategoryService implements CategoryServiceInterface
             $this->categoryRepository->getByProvider($providerId));
     }
 
-    public function create(array $data): JsonResponse
+    public function create(CategoryDto $dto): JsonResponse
     {
-        $category = $this->categoryRepository->create($data);
+        $category = $this->categoryRepository->create([
+            'name' => $dto->name,
+            'parent_id' => $dto->parent_id,
+            'provider_id' => $dto->provider_id,
+        ]);
+        $category->load('provider');
+
         return $this->apiResponse->success('Category created successfully', $category, 201);
     }
 
-    public function update(int $id, array $data): JsonResponse
+    public function update(int $id, CategoryDto $dto): JsonResponse
     {
-        $category = $this->categoryRepository->update($id, $data);
+        $category = $this->categoryRepository->update($id, [
+            'name' => $dto->name,
+            'parent_id' => $dto->parent_id,
+            'provider_id' => $dto->provider_id,
+        ]);
 
-        return $category
-            ? $this->apiResponse->success('Category updated successfully', $category)
-            : $this->apiResponse->error('Category not found', [], 404);
+        if (!$category) {
+            return $this->apiResponse->error('Category not found', [], 404);
+        }
+
+        $category->load('provider');
+
+        return $this->apiResponse->success('Category updated successfully', $category);
     }
 
     public function delete(int $id): JsonResponse

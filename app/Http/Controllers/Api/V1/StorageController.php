@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Contracts\StorageRepositoryInterface;
+use App\Contracts\StorageServiceInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class StorageController extends Controller
 {
-    private StorageRepositoryInterface $storageRepository;
+    private StorageServiceInterface $storageService;
 
-    public function __construct(StorageRepositoryInterface $storageRepository)
+    public function __construct(StorageServiceInterface $storageService)
     {
-        $this->storageRepository = $storageRepository;
+        $this->storageService = $storageService;
     }
 
     public function getRemainingQuantities(Request $request): JsonResponse
@@ -22,11 +22,6 @@ class StorageController extends Controller
             'date' => 'required|date',
         ]);
 
-        $remainingQuantities = $this->storageRepository->getRemainingQuantities($request->input('date'));
-
-        return response()->json([
-            'message' => 'Remaining quantities retrieved successfully',
-            'data' => $remainingQuantities,
-        ]);
+        return $this->storageService->getRemainingQuantities($request->input('date'));
     }
 }
